@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "915631980733",
+    "project_id": "hpsapp-5514f",
+    "storage_bucket": "hpsapp-5514f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915631980733:android:bea563b3731d26e51a77d4",
+        "android_client_info": {
+          "package_name": "com.example.hps_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915631980733-9qsrhbaom65gcts55cconelbpjlqqsaa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeG-HdV91nsKDCcb1noa1aWBFjLmuce8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915631980733-9qsrhbaom65gcts55cconelbpjlqqsaa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
