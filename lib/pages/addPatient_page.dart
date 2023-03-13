@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../providers/patients_providers.dart';
 import 'package:provider/provider.dart';
@@ -45,16 +46,36 @@ class _AddPageState extends State<addPatient_page> {
     
     super.didChangeDependencies();
   }
-void _saveForm(){
+void _saveForm() async{
   final isValid = _form.currentState!.validate();
   if (!isValid){
     return;
   }
+
+
    _form.currentState!.save();
    //print in console
-  //  print(_edited.name);
-  //  print(_edited.wardNo);
+    print(_edited.name);
+    print(_edited.wardNo);
+    // List <Category> categories = [
+    //   Category(t),
+    //   Category(),
+    //   Category(),
+    // ];
+  Map<String, int> categories = {
+    'Heart Rate': 98,
+    'Blood Pressure': 54,
+    'Fever': 1,
+  };
+  var doc = await FirebaseFirestore.instance.collection("patient").add({
+    "name": _edited.name,
+    "wardNo": _edited.wardNo,
+    "categories": categories,
 
+  });
+  await doc.update({
+    "id": doc.id
+  });
   //Adding patient in the patient list
 //  if (_edited.name != null ) //name
 //   { Provider.of<Patients>(context, listen: false).updatePatient(_edited.name, _edited);}

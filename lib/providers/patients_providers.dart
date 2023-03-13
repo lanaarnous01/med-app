@@ -42,20 +42,17 @@ List <Category> categories = [
   Category(
       title: 'Heart Rate',
       numberr: '9',
-      icons: Icon(Icons.monitor_heart_outlined),
       id:  '1'
   ),
 
   Category(
       title: 'Blood Pressure',
       numberr: '98',
-      icons: Icon(Icons.access_alarm_sharp),
       id: '2'
   ),
   Category(
       title: 'Fever',
       numberr: '36',
-      icons: Icon(Icons.thermostat),
       id: '3'
   )
 

@@ -1,8 +1,10 @@
 
+import 'package:hps_application/models/listModel.dart';
 import 'package:hps_application/pages/addPatient_page.dart';
 //import 'package:hps_application/widgets/updateSheet.dart';
 //import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hps_application/widgets/patientInfo_widget.dart';
 import 'package:hps_application/widgets/updateSheet.dart';
 //import 'package:hps_application/pages/patientList.dart';
 import '../pages/patientInfo.dart';
@@ -64,8 +66,13 @@ class _PatientListState extends State<PatientList> {
               children: [
                  IconButton(
                               onPressed: (() {
-                                
-                           Navigator.of(context).pushNamed(UpdateSheet.routeName, arguments: widget.id);
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => UpdateSheet(id: widget.id,),
+                                  ),
+                                );
                              
                               }
                               ), icon: Icon(Icons.edit, color: Colors.indigoAccent, )
@@ -82,12 +89,14 @@ class _PatientListState extends State<PatientList> {
        
             onTap: () {
               //pushNamed
-             Navigator.of(context).pushNamed(
-            //  MaterialPageRoute(builder: ((context) => patientInfo_page(name))
-            //  )
-             patientInfo_page.routeName,arguments: widget.id //name
-         
+             Navigator.push(
+               context,
+               MaterialPageRoute(
+                 builder: (_) => patientInfo_page(id: widget.id,),
+               ),
              );
+
+
             },
           
              ),

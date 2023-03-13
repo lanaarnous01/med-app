@@ -1,11 +1,17 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hps_application/pages/patientList.dart';
 import 'package:provider/provider.dart';
 import '../providers/patients_providers.dart';
 import '../models/listModel.dart';
 class UpdateSheet extends StatefulWidget {
-static const routeName = '/updatePatient'; 
-  const UpdateSheet({super.key});
+static const routeName = '/updatePatient';
+String id;
+   UpdateSheet({
+    super.key,
+    required this.id,
+  });
 
   @override
   State<UpdateSheet> createState() => _UpdateSheetState();
@@ -46,12 +52,17 @@ class _UpdateSheetState extends State<UpdateSheet> {
     
     super.didChangeDependencies();
   }
-void _saveForm(){
+void _saveForm() async {
   final isValid = _formm.currentState!.validate();
   if (!isValid){
     return;
   }
    _formm.currentState!.save();
+  await FirebaseFirestore.instance.collection("patient").doc(widget.id).update({
+
+    "name": _edited.name,
+    "wardNo": _edited.wardNo,
+  });
    //print in console
   //  print(_edited.name);
   //  print(_edited.wardNo);
@@ -62,8 +73,12 @@ void _saveForm(){
   //else
 
   // {Provider.of<Patients>(context, listen: false).addPatient(_edited);}
-  Navigator.of(context).pop();
-}
+  Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PatientListPage(), //if correct credintial
+      ),
+          (route) => false);}
 
  Widget buildName() => TextFormField(
     initialValue: _initValues['name'],

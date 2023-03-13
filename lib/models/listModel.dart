@@ -8,7 +8,9 @@ class Patient {
   final numberHeart;
   final numberPressure;
   final numberFever;
-  List <Category> categories = [];
+  List <Category> categories = [
+
+  ];
   Patient({
    @required this.name, 
    @required  this.wardNo,

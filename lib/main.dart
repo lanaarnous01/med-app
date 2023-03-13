@@ -62,9 +62,7 @@ class MyApp extends StatelessWidget {
         home:
          PatientListPage(),
          routes: {
-          patientInfo_page.routeName:(context) => patientInfo_page(),
         addPatient_page.routeName:(context) => addPatient_page(),
-        UpdateSheet.routeName:(context) => UpdateSheet(),
         PatientInfoWidget.routeName:(context) => PatientInfoWidget(),
        UpdateMeasurements.routeName:((context) => UpdateMeasurements()),
          

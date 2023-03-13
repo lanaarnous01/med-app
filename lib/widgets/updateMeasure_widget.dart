@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 class UpdateMeasureWidget extends StatefulWidget {
  // const UpdateMeasureWidget({super.key});
-  final String title;
-  final String numberr;
+  final dynamic title;
+  final dynamic numberr;
   final String id;
   UpdateMeasureWidget(this.title, this.numberr, this.id);
   @override

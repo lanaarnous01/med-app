@@ -17,7 +17,7 @@ class PatientListPage extends StatefulWidget {
 class _PatientListPageState extends State<PatientListPage> {
 //   final List <Patient> patients = [
 
-  
+
   Widget build(BuildContext context) {
     //gets junk data from patient list provider
     final patientsData = Provider.of<Patients>(context);
@@ -25,12 +25,6 @@ class _PatientListPageState extends State<PatientListPage> {
     final db = FirebaseFirestore.instance;
     final patientName = ModalRoute.of(context)!.settings.arguments as dynamic;
 
-   void add() async{ //documentsnapshot
-    await FirebaseFirestore.instance.collection("test").add({
-       "name": '',// patientsData.name,
-       "wardNo": ''
-
-  });}
 
 
     return Scaffold(
@@ -68,43 +62,65 @@ class _PatientListPageState extends State<PatientListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlue,
-        onPressed: () async {
-        await add;
-          
+        onPressed: ()  {
+
           Navigator.push(context, MaterialPageRoute(builder: (context) => addPatient_page()));
         },
       child: Icon(Icons.add,),
       ),
 
-       body: 
-       ListView.builder(
-        itemCount: patients.length, 
-       itemBuilder: ((ctx, i) => 
-       // provider added
-       Provider(
-        create: (context) => patients[i],
-         child: Container(
-       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                              
-        decoration: BoxDecoration(
-                              
-       borderRadius: BorderRadius.circular(20), //13
-       
-      
-        // gradient: LinearGradient(
-        //       colors: [new Color(0xffF5591F), new Color(0xffF2861E)],  //[Colors.redAccent, Colors.pink],
-        //       begin: Alignment.bottomCenter,
-        //       end: Alignment.topCenter
-        //       ),
-                               
-                              ),
-          child: PatientList(
-            patients[i].name, patients[i].wardNo,  patients[i].id,
-          
-            )),
-       )
-       ),
-       )
+       body:
+       FutureBuilder(
+        future: FirebaseFirestore.instance.collection("patient").get(),
+    builder: (context,
+    AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (snapshot.data == null) {
+    return Container(
+    margin: EdgeInsets.symmetric(vertical: 15),
+    child: Center(
+    child: CircularProgressIndicator(),
+    ),
+    );
+    } else if (snapshot.data!.docs.length == 0) {
+    return new SingleChildScrollView(
+    child: Center(),
+    );
+    } else {
+
+
+    return ListView.builder(
+    itemCount: snapshot.data!.docs.length,
+    itemBuilder: ((ctx, i) {
+    // provider added
+      String name = snapshot.data!.docs[i].get("name");
+      String wardNo = snapshot.data!.docs[i].get("wardNo");
+      String id = snapshot.data!.docs[i].id;
+
+    return Container(
+    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+
+    decoration: BoxDecoration(
+
+    borderRadius: BorderRadius.circular(20), //13
+
+
+    // gradient: LinearGradient(
+    //       colors: [new Color(0xffF5591F), new Color(0xffF2861E)],  //[Colors.redAccent, Colors.pink],
+    //       begin: Alignment.bottomCenter,
+    //       end: Alignment.topCenter
+    //       ),
+
+    ),
+    child: PatientList(
+    name, wardNo, id,
+
+    )
+    );
+    }
+    ),
+    );
+    }}),
+
 
     );
   }

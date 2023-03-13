@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hps_application/models/listModel.dart';
 import 'package:hps_application/pages/history_page.dart';
@@ -16,6 +18,8 @@ class patientInfo_page extends StatefulWidget {
  
 // final String namee;
 // patientInfo_page(thisse);
+String id;
+patientInfo_page({super.key,  required this.id});
 
 static const routeName = '/patient-info';
 
@@ -52,12 +56,7 @@ class _patientInfo_pageState extends State<patientInfo_page> {
   Widget build(BuildContext context) {
     //Changed to stateless, to show names when going next page
     //back to stetfull to save ny updates
-    final patientName = ModalRoute.of(context)!.settings.arguments as dynamic; //String
-     //final loadedPatient2 = Provider.of<Patients>(context).findbyId(patientName);
-    final loadedPatient = Provider.of<Patients>(context).getPatients().firstWhere((prod) => prod.id == patientName); //prod.name == patientName
-    int pateintData =  Provider.of<Patients>(context).getPatients().indexOf(Provider.of<Patients>(context).getPatients().firstWhere((prod) => prod.id == patientName));
-    final patientsData = Provider.of<Patients>(context);
-    final patients = patientsData.getPatients();
+
     final categoriesData = Provider.of<Categories>(context);
     // final categories = categoriesData.categories;
     //final activity = Provider.of<History>(context, listen: false).addHistory(patients.toList());
@@ -93,11 +92,33 @@ class _patientInfo_pageState extends State<patientInfo_page> {
 
     ),
     floatingActionButton:   FloatingActionButton(onPressed: (() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateMeasurements(x: pateintData,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateMeasurements(x: 1,)));
     }), child: Icon(Icons.edit),)
     ,
     body:
-    SingleChildScrollView(
+    FutureBuilder(
+        future: FirebaseFirestore.instance.collection("patient").where("id", isEqualTo: widget.id).get(),
+    builder: (context,
+    AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (snapshot.data == null) {
+    return Container(
+    margin: EdgeInsets.symmetric(vertical: 15),
+    child: Center(
+    child: CircularProgressIndicator(),
+    ),
+    );
+    } else if (snapshot.data!.docs.length == 0) {
+    return new SingleChildScrollView(
+    child: Center(),
+    );
+    } else {
+      String name = snapshot.data!.docs[0].get("name");
+      String wardNo = snapshot.data!.docs[0].get("wardNo");
+      String id = snapshot.data!.docs[0].id;
+      Map<dynamic, dynamic> categories = snapshot.data!.docs[0].get("categories");
+      print(categories);
+
+                return  SingleChildScrollView(
     child: SafeArea(
     child: //singlechildscrollview
     Column(
@@ -122,7 +143,7 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-    Text( loadedPatient.name,       //patientName,
+    Text( name,       //patientName,
     style: TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
@@ -131,7 +152,7 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     ),
 
     SizedBox(height: 10,),
-    Text(loadedPatient.wardNo,          
+    Text(wardNo,
     style: TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
@@ -177,26 +198,40 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     SizedBox(
     height: 500,
     child: ListView.builder(
-    itemCount: Provider.of<Patients>(context).getPatients()[pateintData].categories.length, //categories
+    itemCount: categories.length,//Provider.of<Patients>(context).getPatients()[pateintData].categories.length, //categories
     itemBuilder: ((ctx, i) {
-      Category c = Provider.of<Patients>(context).getPatients()[pateintData].categories[i];
-      print(pateintData);
-                    return Provider(
-        create: (context) => loadedPatient.id, //categories[i]
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    return Container(
+    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
-          decoration: BoxDecoration(
+    decoration: BoxDecoration(
 
-            borderRadius: BorderRadius.circular(20), //13
+    borderRadius: BorderRadius.circular(20), //13
 
-          ),
-          child: UpdateMeasureWidget(
-             c.title, c.numberr, c.id, //categories[i].icons categories[i].title
-
-          ),
+    ),
+    child: Form(child: ListTile(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+            width: 2, color: Colors.indigo
         ),
-      );
+        borderRadius: BorderRadius.circular(10),
+
+      ),
+      title: Text(categories.keys.elementAt(i), style:
+      TextStyle(
+          color:  Colors.indigoAccent,
+          fontWeight: FontWeight.bold, fontSize: 20),),
+      trailing: Text(i.toString(), style:
+
+      TextStyle(color: Colors.indigoAccent,  fontWeight: FontWeight.bold, fontSize: 20),),
+      subtitle: Text(categories.values.elementAt(i).toString(), style:
+
+      TextStyle(color: Colors.indigoAccent,  fontWeight: FontWeight.bold, fontSize: 15),),
+    )),
+    // child: UpdateMeasureWidget(
+    // categories.keys.elementAt(i), categories.values.elementAt(i),i.toString(), //categories[i].icons categories[i].title
+    //
+    // ),
+    );
     }
     ),
     ),
@@ -298,7 +333,9 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     ],
     ),
     ),
-    ),
+    );
+    }})
+   
 
 
     );
