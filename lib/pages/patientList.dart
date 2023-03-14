@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hps_application/main.dart';
 import 'package:hps_application/pages/addPatient_page.dart';
+import 'package:hps_application/services/authServices.dart';
 // import '../models/listModel.dart';
 import '../widgets/patientList_widget.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ class _PatientListPageState extends State<PatientListPage> {
     final patients = patientsData.getPatients();
     final db = FirebaseFirestore.instance;
     final patientName = ModalRoute.of(context)!.settings.arguments as dynamic;
-
+    final authService = Provider.of<AuthService>(context);
 
 
     return Scaffold(
@@ -59,6 +60,11 @@ class _PatientListPageState extends State<PatientListPage> {
               ),
           ),
         ),
+        actions: [
+          IconButton(onPressed: (() async{
+            await authService.signOut();
+          }), icon: Icon(Icons.person))
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlue,

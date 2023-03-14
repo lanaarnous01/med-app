@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hps_application/pages/register_page.dart';
+import 'package:hps_application/services/authServices.dart';
+import 'package:provider/provider.dart';
 
 class LoginNursePage extends StatefulWidget {
   const LoginNursePage({Key? key}) : super(key: key);
@@ -8,7 +11,7 @@ class LoginNursePage extends StatefulWidget {
 
 class _LoginNursePageState extends State<LoginNursePage> {
   final emailController = TextEditingController();
-  final patientIDController = TextEditingController();
+  final passwordController = TextEditingController();
 
   Widget buildEmail() => TextField(
         controller: emailController,
@@ -20,7 +23,7 @@ class _LoginNursePageState extends State<LoginNursePage> {
         textInputAction: TextInputAction.done,
       );
   Widget buildPassword() => TextField(
-        controller: patientIDController,
+        controller: passwordController,
         decoration: InputDecoration(
           labelText: 'Password',
           enabledBorder: InputBorder.none,
@@ -49,6 +52,9 @@ class _LoginNursePageState extends State<LoginNursePage> {
       );
 
   Widget build(BuildContext context) {
+    // final TextEditingController emailController = TextEditingController();
+    // final TextEditingController passwordController = TextEditingController();
+    final authService = Provider.of<AuthService>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
@@ -116,6 +122,17 @@ class _LoginNursePageState extends State<LoginNursePage> {
             alignment: Alignment.center,
             child: buildPassword(),
           ),
+          ElevatedButton(onPressed: () {
+            authService.signInEmailAndPass(
+              emailController.text, passwordController.text);
+          }, child: Text('Login in')),
+          ElevatedButton(onPressed: (() {
+           // Navigator.pushNamed(context, '/register_page');
+           Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterPage()),
+            );
+          }), child: Text('Register'))
         ]),
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hps_application/services/authServices.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -8,7 +10,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
-  final patientIDController = TextEditingController();
+  final passwordController = TextEditingController();
 
   Widget buildEmail() => TextField(
         controller: emailController,
@@ -21,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
         textInputAction: TextInputAction.done,
       );
   Widget buildPhoneNo() => TextField(
-        controller: patientIDController,
+       // controller: passwordController,
         decoration: InputDecoration(
           labelText: 'Phone Number',
           enabledBorder: InputBorder.none,
@@ -31,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
         textInputAction: TextInputAction.done,
       );
   Widget buildName() => TextField(
-        controller: emailController,
+       // controller: emailController,
         decoration: InputDecoration(
           labelText: 'Name',
           enabledBorder: InputBorder.none,
@@ -41,13 +43,13 @@ class _RegisterPageState extends State<RegisterPage> {
         textInputAction: TextInputAction.done,
       );
   Widget buildPassword() => TextField(
-        controller: emailController,
+        controller: passwordController,
         decoration: InputDecoration(
           labelText: 'Password',
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
         ),
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: TextInputType.visiblePassword,
         textInputAction: TextInputAction.done,
       );
 
@@ -70,6 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
       );
 
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
@@ -118,10 +121,17 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          Containerr(buildName()),
-          Containerr(buildEmail()),
-          Containerr(buildPhoneNo()),
-          Containerr(buildPassword())
+          //Containerr(buildName()),
+           Containerr(buildEmail()),
+          // Containerr(buildPhoneNo()),
+          Containerr(buildPassword()),
+
+          ElevatedButton(onPressed: (() async {
+           await authService.createUserWithEmailAndPass(
+              emailController.text, passwordController.text);
+              Navigator.pop(context);
+          }), child: Text('Register'))
+
         ]),
       ),
     );

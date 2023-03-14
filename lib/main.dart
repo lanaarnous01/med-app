@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hps_application/providers/history.dart';
+import 'package:hps_application/services/authServices.dart';
 import 'package:hps_application/widgets/updateSheet.dart';
+import 'package:hps_application/wrapper.dart';
 import 'models/listModel.dart';
 import 'pages/login_page.dart';
 import 'pages/addPatient_page.dart';
@@ -55,13 +57,18 @@ class MyApp extends StatelessWidget {
           create: (context) => History(),
         ),
         ChangeNotifierProvider(
-          create: (context) => Categories())
+          create: (context) => Categories()),
+        Provider<AuthService>(create: ((context) => AuthService()))  
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home:
-         PatientListPage(),
+         //home:
+         
+          //PatientListPage(),
+        initialRoute: '/',
          routes: {
+       //   '/':(context) => Wrapper(),
+          Wrapper.routeName:(context) => Wrapper(),
         addPatient_page.routeName:(context) => addPatient_page(),
         PatientInfoWidget.routeName:(context) => PatientInfoWidget(),
        UpdateMeasurements.routeName:((context) => UpdateMeasurements()),
