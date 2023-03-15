@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hps_application/pages/loginNurse_page.dart';
+import 'package:hps_application/pages/login_page.dart';
+import 'package:hps_application/wrapper.dart';
 
 //addPatient_page
 class Option_page extends StatefulWidget {
+  static const routeName = '/';
   const Option_page({Key? key}) : super(key: key);
 
   State<Option_page> createState() => _OptionPageState();
@@ -10,52 +14,88 @@ class Option_page extends StatefulWidget {
 class _OptionPageState extends State<Option_page> {
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(padding: EdgeInsets.all(32), children: [
-      Center(
-        child: Container(
-          decoration: BoxDecoration(color: Colors.white10),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 270,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: Card(
-                      elevation: 0,
-                      color: Theme.of(context).colorScheme.surfaceVariant,
-                      child: const SizedBox(
-                        width: 90,
-                        height: 100,
-                        child: Center(
-                          child: Text('Nurse'),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Card(
-                      elevation: 0,
-                      color: Theme.of(context).colorScheme.surfaceVariant,
-                      child: const SizedBox(
-                        width: 120,
-                        height: 100,
-                        child: Center(
-                          child: Text('Family member'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+        body: Container(
+          decoration: BoxDecoration(
+        gradient: LinearGradient(
+              begin: Alignment.topCenter, 
+              end: Alignment.bottomCenter, 
+               colors: [Colors.indigo, Colors.blueAccent],
+            )
         ),
-      ),
-    ]));
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Welcome to HPS',
+            style: TextStyle(fontSize: 31,
+            color: Colors.white,
+            fontWeight: FontWeight.bold
+            ),
+            ),
+            SizedBox(height: 30,),
+            Row(
+              children: [
+                SizedBox(width: 13),
+                GestureDetector(
+                  onTap: () {
+                     Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Wrapper()),
+            );
+                  },
+                  child: Container(
+                    width: 170,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15))
+                      ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 25,),
+                        Icon(Icons.medical_information, size: 100, color: Colors.indigo,),
+                         Text('Nurse', 
+                         style: TextStyle(
+                          fontSize: 17, fontWeight: FontWeight.bold,
+                          color: Colors.indigo,
+                          ),)
+                        
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 30),
+                 GestureDetector(
+                  onTap: () {
+                        Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage()),
+            );
+                  },
+                   child: Container(
+                    width: 170,
+                    height: 200,
+                    decoration: BoxDecoration(color: Colors.white,
+                     borderRadius: BorderRadius.all(Radius.circular(15))
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20,),
+                        Icon(Icons.person, size: 100, color: Colors.indigo,),
+                        Text('Family Member', 
+                        style: 
+                        TextStyle(
+                          fontSize: 17, fontWeight: FontWeight.bold,
+                          color: Colors.indigo,
+                          ),)
+                      ],
+                    ),
+                                 ),
+                 ),
+              ],
+            ),
+          ],
+        ),
+        )
+       );
   }
 }

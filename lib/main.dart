@@ -62,13 +62,15 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-         //home:
-         
-          //PatientListPage(),
-        initialRoute: '/',
+        
+        //  home:
+        //  '/':(context) => Option_page(),
+
+         initialRoute: '/',
          routes: {
        //   '/':(context) => Wrapper(),
-          Wrapper.routeName:(context) => Wrapper(),
+         // Wrapper.routeName:(context) => Wrapper(),
+          Option_page.routeName:(context) => Option_page(),
         addPatient_page.routeName:(context) => addPatient_page(),
         PatientInfoWidget.routeName:(context) => PatientInfoWidget(),
        UpdateMeasurements.routeName:((context) => UpdateMeasurements()),

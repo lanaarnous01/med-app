@@ -122,17 +122,37 @@ class _LoginNursePageState extends State<LoginNursePage> {
             alignment: Alignment.center,
             child: buildPassword(),
           ),
+          SizedBox(height: 20,),
           ElevatedButton(onPressed: () {
             authService.signInEmailAndPass(
               emailController.text, passwordController.text);
-          }, child: Text('Login in')),
+          }, child: Text('Login in',
+          style: TextStyle(fontSize: 18),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blueAccent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+            )
+          ),
+          ),
+          SizedBox(height: 20,),
+          Text('Not a member, Register!'),
+          SizedBox(height: 20,),
           ElevatedButton(onPressed: (() {
            // Navigator.pushNamed(context, '/register_page');
            Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => RegisterPage()),
             );
-          }), child: Text('Register'))
+          }), child: Text('Register',  style: TextStyle(fontSize: 18),),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blueAccent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+            )
+          ),
+          )
         ]),
       ),
     );

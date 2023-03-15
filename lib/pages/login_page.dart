@@ -57,11 +57,10 @@ class _LoginPageState extends State<LoginPage> {
             decoration: BoxDecoration(
                 borderRadius:
                     BorderRadius.only(bottomLeft: Radius.circular(90)),
-                color: new Color(0xffF5591F),
                 gradient: LinearGradient(
                   begin: Alignment.topCenter, //center
                   end: Alignment.bottomCenter, //bottomright
-                  colors: [new Color(0xffF5591F), new Color(0xffF2861E)],
+                  colors: [Colors.indigo, Colors.blueAccent],
                 )),
             child: Center(
               child: Column(
@@ -96,15 +95,15 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 70),
-            padding: EdgeInsets.only(left: 20, right: 20),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: Colors.grey[200]),
-            alignment: Alignment.center,
-            child: buildEmail(),
-          ),
+          // Container(
+          //   margin: EdgeInsets.only(left: 20, right: 20, top: 70),
+          //   padding: EdgeInsets.only(left: 20, right: 20),
+          //   decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(50),
+          //       color: Colors.grey[200]),
+          //   alignment: Alignment.center,
+          //   child: buildEmail(),
+          // ),
           Container(
             margin: EdgeInsets.only(left: 20, right: 20, top: 30),
             padding: EdgeInsets.only(left: 20, right: 20),
