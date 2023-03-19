@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:hps_application/models/userModel.dart';
+import 'package:provider/provider.dart';
+import '../services/authServices.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -10,17 +12,22 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    
     return SingleChildScrollView(
       child: Container(
-        padding:  EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Text('data'),
-            Text('data'),
-            SizedBox(height: 20,),
-            
-          ],
-        ),
+        padding:  EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+           borderRadius: BorderRadius.circular(15)
+          ),
+          child: Row(
+            children: [
+             
+              
+            ],
+          ),
+        )
       
       ),
     );

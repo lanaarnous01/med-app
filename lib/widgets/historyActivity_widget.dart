@@ -1,11 +1,11 @@
 // import 'package:flutter/src/widgets/container.dart';
 // import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import '../providers/history.dart' as hist;
+import '../providers/nurse_providers.dart' as hist;
 
 class HistoryActivity extends StatelessWidget {
-  final hist.HistoryActivity history;
-  HistoryActivity(this.history);
+  // final hist.HistoryActivity history;
+  // HistoryActivity(this.history);
  // const HsitroyActivity({super.key});
 
   @override

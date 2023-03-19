@@ -53,9 +53,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Patients(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => History(),
-        ),
+        // ChangeNotifierProvider(
+        //   create: (context) => History(),
+        // ),
         ChangeNotifierProvider(
           create: (context) => Categories()),
         Provider<AuthService>(create: ((context) => AuthService()))  
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
          initialRoute: '/',
          routes: {
        //   '/':(context) => Wrapper(),
-         // Wrapper.routeName:(context) => Wrapper(),
+        //  Wrapper.routeName:(context) => Wrapper(),
           Option_page.routeName:(context) => Option_page(),
         addPatient_page.routeName:(context) => addPatient_page(),
         PatientInfoWidget.routeName:(context) => PatientInfoWidget(),

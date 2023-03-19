@@ -129,11 +129,18 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     margin: EdgeInsets.all(15),
     padding: EdgeInsets.all(20),
     decoration: BoxDecoration(
-    //color: Colors.indigoAccent, //amber accent
     borderRadius: BorderRadius.circular(30),
     border: Border.all(color: Colors.blue)
 
     ),
+    //  decoration: BoxDecoration(
+    // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
+    // gradient: LinearGradient(
+    // colors: [Colors.indigo, Colors.blueAccent],//[Colors.orange, Colors.deepOrangeAccent],
+    // begin: Alignment.bottomCenter,
+    // end: Alignment.topCenter
+    // ),
+    // ),
     child: Row(
     crossAxisAlignment: CrossAxisAlignment.center,
 
@@ -153,6 +160,14 @@ class _patientInfo_pageState extends State<patientInfo_page> {
 
     SizedBox(height: 10,),
     Text(wardNo,
+    style: TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: Colors.indigoAccent //white
+    ),
+    ),
+    SizedBox(height: 10,),
+    Text(id,
     style: TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
