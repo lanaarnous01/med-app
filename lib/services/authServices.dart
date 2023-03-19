@@ -7,6 +7,7 @@ class AuthService{
     if (user == null){
       return null;
     }
+
     return User(user.uid, user.email);
   }
 
@@ -29,6 +30,7 @@ class AuthService{
   )async{
     final credentials = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email, password: password);
+
       return _userFromFirebase(credentials.user);
   }
 

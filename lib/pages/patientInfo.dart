@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hps_application/models/listModel.dart';
 import 'package:hps_application/pages/history_page.dart';
 import 'package:hps_application/pages/updateMeasurements.dart';
-import 'package:hps_application/providers/history.dart';
+// import 'package:hps_application/providers/history.dart';
 import 'package:hps_application/widgets/patientInfo_widget.dart';
 import 'package:hps_application/widgets/updateMeasure_widget.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,9 @@ static const routeName = '/patient-info';
   @override
   State<patientInfo_page> createState() => _patientInfo_pageState();
 }
+List <String> familyCodes = [
 
+];
 class _patientInfo_pageState extends State<patientInfo_page> {
 //  final List categories =[
 //   {
@@ -91,8 +94,8 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     ),
 
     ),
-    floatingActionButton:   FloatingActionButton(onPressed: (() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateMeasurements(x: 1,)));
+    floatingActionButton:   FirebaseAuth.instance.currentUser == null ? Container() :FloatingActionButton(onPressed: (() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateMeasurements(id: widget.id,)));
     }), child: Icon(Icons.edit),)
     ,
     body:
@@ -115,8 +118,8 @@ class _patientInfo_pageState extends State<patientInfo_page> {
       String name = snapshot.data!.docs[0].get("name");
       String wardNo = snapshot.data!.docs[0].get("wardNo");
       String id = snapshot.data!.docs[0].id;
-      Map<dynamic, dynamic> categories = snapshot.data!.docs[0].get("categories");
-      print(categories);
+      var categories = snapshot.data!.docs[0].get("categories");
+      print(categories[0]);
 
                 return  SingleChildScrollView(
     child: SafeArea(
@@ -191,7 +194,7 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     //    child: Container(
     //  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
-    //   decoration: BoxDecoration(
+    ///   decoration: BoxDecoration(
 
     //  borderRadius: BorderRadius.circular(20), //13
 
@@ -215,33 +218,32 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     child: ListView.builder(
     itemCount: categories.length,//Provider.of<Patients>(context).getPatients()[pateintData].categories.length, //categories
     itemBuilder: ((ctx, i) {
+      Map <dynamic, dynamic> index = categories[i];
     return Container(
     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
     decoration: BoxDecoration(
+      color: Colors.grey,
 
     borderRadius: BorderRadius.circular(20), //13
 
     ),
-    child: Form(child: ListTile(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-            width: 2, color: Colors.indigo
-        ),
-        borderRadius: BorderRadius.circular(10),
-
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("${index.keys.elementAt(0)}: ${index.values.elementAt(0)}" , style: TextStyle(
+            fontSize: 18
+          ),),
+          Text("${index.keys.elementAt(1)}: ${index.values.elementAt(1)}" , style: TextStyle(
+              fontSize: 18)),
+          Text("${index.keys.elementAt(2)}: ${index.values.elementAt(2)}" , style: TextStyle(
+              fontSize: 18)
+          )
+        ],
       ),
-      title: Text(categories.keys.elementAt(i), style:
-      TextStyle(
-          color:  Colors.indigoAccent,
-          fontWeight: FontWeight.bold, fontSize: 20),),
-      trailing: Text(i.toString(), style:
-
-      TextStyle(color: Colors.indigoAccent,  fontWeight: FontWeight.bold, fontSize: 20),),
-      subtitle: Text(categories.values.elementAt(i).toString(), style:
-
-      TextStyle(color: Colors.indigoAccent,  fontWeight: FontWeight.bold, fontSize: 15),),
-    )),
+    )
     // child: UpdateMeasureWidget(
     // categories.keys.elementAt(i), categories.values.elementAt(i),i.toString(), //categories[i].icons categories[i].title
     //

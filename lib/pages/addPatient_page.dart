@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../FirebaseThings/FirebaseVariables.dart';
 import '../providers/patients_providers.dart';
 import 'package:provider/provider.dart';
 import '../models/listModel.dart';
@@ -62,19 +63,22 @@ void _saveForm() async{
     //   Category(),
     //   Category(),
     // ];
-  Map<String, int> categories = {
+  List<Map<String, int>> categories = [{
     'Heart Rate': 98,
     'Blood Pressure': 54,
     'Fever': 1,
-  };
-  var doc = await FirebaseFirestore.instance.collection("patient").add({
+  },
+
+  ];
+  var doc = await patientCollection.add({
     "name": _edited.name,
     "wardNo": _edited.wardNo,
     "categories": categories,
 
   });
   await doc.update({
-    "id": doc.id
+    "id": doc.id,
+    "codeID": doc.id.substring(0,4)
   });
   //Adding patient in the patient list
 //  if (_edited.name != null ) //name

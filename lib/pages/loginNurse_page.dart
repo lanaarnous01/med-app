@@ -126,7 +126,7 @@ class _LoginNursePageState extends State<LoginNursePage> {
           ElevatedButton(onPressed: () {
             authService.signInEmailAndPass(
               emailController.text, passwordController.text);
-          }, child: Text('Login in',
+          }, child: Text('Login',
           style: TextStyle(fontSize: 18),
           ),
           style: ElevatedButton.styleFrom(

@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hps_application/main.dart';
 import 'package:hps_application/pages/addPatient_page.dart';
+import 'package:hps_application/pages/option_page.dart';
 import 'package:hps_application/services/authServices.dart';
 // import '../models/listModel.dart';
 import '../widgets/patientList_widget.dart';
@@ -29,10 +31,51 @@ class _PatientListPageState extends State<PatientListPage> {
 
 
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+        UserAccountsDrawerHeader(
+        currentAccountPicture: CircleAvatar(
+          backgroundColor: Colors.white,
+          child: Icon(Icons.person, size: 50.0,),
+        ),
+        accountName: Text('Lana'),
+        accountEmail:Text( FirebaseAuth.instance.currentUser == null ? "" :FirebaseAuth.instance.currentUser!.email.toString()),
+      ),
+            FirebaseAuth.instance.currentUser == null ? ListTile(
+                leading: CircleAvatar(
+                  child: Icon(Icons.login,
+                    color: Colors.white,
+                    size: 30.0,
+                  ),
+                ),
+                title: Text("Sign in"),
+                onTap: () async {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Option_page()));
+
+                }
+            )
+            :ListTile(
+          leading: CircleAvatar(
+            child: Icon(Icons.logout,
+              color: Colors.white,
+              size: 30.0,
+            ),
+          ),
+          title: Text("Log out"),
+          onTap: () async {
+            await FirebaseAuth.instance.signOut();
+
+          }
+        )
+      ],
+      ),
+        ),
        appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         toolbarHeight: 70,
+
         title: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

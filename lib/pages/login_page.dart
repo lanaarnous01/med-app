@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hps_application/FirebaseThings/FirebaseVariables.dart';
+import 'package:hps_application/pages/patientInfo.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,6 +12,13 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final patientIDController = TextEditingController();
 
+  List <String> IDs = [
+    "122",
+  ];
+  bool isMatch = true;
+
+  final GlobalKey<FormState> _formKeyID = new GlobalKey<FormState>();
+
   Widget buildEmail() => TextField(
         controller: emailController,
         decoration: InputDecoration(
@@ -19,8 +28,10 @@ class _LoginPageState extends State<LoginPage> {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
       );
-  Widget buildPatientID() => TextField(
+  Widget buildPatientID() => TextFormField(
         controller: patientIDController,
+      key: _formKeyID,
+    autovalidateMode: AutovalidateMode.always,
         decoration: InputDecoration(
           labelText: 'Patient ID',
           enabledBorder: InputBorder.none,
@@ -28,6 +39,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.done,
+    validator: (value)
+    {
+     return !isMatch ? "WrongID" : null;
+    },
       );
 
   Widget Containerr(widget) => Container(
@@ -48,6 +63,29 @@ class _LoginPageState extends State<LoginPage> {
         child: widget,
       );
 
+  void Check({required String id}) async {
+    await getIDs();
+    setState(() {
+      isMatch = true;
+    });
+
+    if (!Ids.contains(id))
+      {
+        setState(() {
+          isMatch = false;
+        });
+
+      }
+
+    else
+      {
+        int index = Ids.indexOf(id);
+
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) => patientInfo_page(id: wholeID[index])));
+
+      }
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -112,6 +150,18 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.grey[200]),
             alignment: Alignment.center,
             child: buildPatientID(),
+          ),
+          ElevatedButton(onPressed: () {
+            Check(id: patientIDController.text);
+          }, child: Text('Login ',
+            style: TextStyle(fontSize: 18),
+          ),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                )
+            ),
           ),
         ]),
       ),

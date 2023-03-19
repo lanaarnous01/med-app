@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hps_application/providers/history.dart';
+// import 'package:hps_application/providers/history.dart';
 import 'package:hps_application/services/authServices.dart';
 import 'package:hps_application/widgets/updateSheet.dart';
 import 'package:hps_application/wrapper.dart';
@@ -66,16 +67,16 @@ class MyApp extends StatelessWidget {
         //  home:
         //  '/':(context) => Option_page(),
 
-         initialRoute: '/',
-         routes: {
-       //   '/':(context) => Wrapper(),
-        //  Wrapper.routeName:(context) => Wrapper(),
-          Option_page.routeName:(context) => Option_page(),
-        addPatient_page.routeName:(context) => addPatient_page(),
-        PatientInfoWidget.routeName:(context) => PatientInfoWidget(),
-       UpdateMeasurements.routeName:((context) => UpdateMeasurements()),
-         
-         },
+         home: StreamBuilder(
+             stream: FirebaseAuth.instance.userChanges(),
+             builder: (ctx, userSnapSh0ot) {
+               if (FirebaseAuth.instance.currentUser != null) {
+                 FocusScope.of(context).requestFocus(FocusNode());
+
+                 return PatientListPage();
+               }
+               return Option_page();
+             }),
     
     
           

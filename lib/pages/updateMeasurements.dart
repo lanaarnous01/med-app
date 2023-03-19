@@ -1,12 +1,17 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hps_application/main.dart';
 import 'package:hps_application/models/listModel.dart';
 import 'package:hps_application/providers/patients_providers.dart';
 import 'package:provider/provider.dart';
+
+import '../FirebaseThings/FirebaseVariables.dart';
 class UpdateMeasurements extends StatefulWidget {
   static const routeName = '/updateMeasurements';
-  int? x;
-   UpdateMeasurements({super.key,  this.x});
+  String id;
+   UpdateMeasurements({super.key, required this.id});
 
   @override
   State<UpdateMeasurements> createState() => _UpdateMeasurementsState();
@@ -27,6 +32,9 @@ class _UpdateMeasurementsState extends State<UpdateMeasurements> {
 
   @override
 
+  int HeartRate = 0;
+  int Fever = 0;
+  int BloodPresure = 0;
   void didChangeDependencies() {
    if (_isInit){
     final categoryName = ModalRoute.of(context)!.settings.arguments as dynamic;
@@ -42,16 +50,29 @@ class _UpdateMeasurementsState extends State<UpdateMeasurements> {
     super.didChangeDependencies();
   }
 
-void _saveForm(){
+void _saveForm() async{
   final isValid = _form.currentState!.validate();
   if (!isValid){
     return;
   }
    _form.currentState!.save();
-  print('index $widget.x!');
-    Provider.of<Patients>(context, listen: false).addCategory(_edited, widget.x!);
+  print('blood $BloodPresure!');
+  print('HR $HeartRate!');
+  print('Fever $Fever!');
+  Map<String, int> q = {
+    'Heart Rate': HeartRate,
+    'Blood Pressure': BloodPresure,
+    'Fever': Fever,
+  };
+
+  print(widget.id);
+
+    await  patientCollection.doc(widget.id).update({
+
+    "categories": FieldValue.arrayUnion([q]),
+  });
    //Provider.of<Categories>(context, listen: false).updateNumberr(_edited.numberr, _edited);
-  Navigator.of(context).pop();
+   // Navigator.of(context).pop();
 }
 
 Widget buildTitle() => TextFormField(
@@ -74,7 +95,7 @@ Widget buildTitle() => TextFormField(
         },
       );
 
-      Widget buildNumberr() => TextFormField(
+      Widget buildNumberr(int number) => TextFormField(
     initialValue: _initValues['numberr'],
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -90,8 +111,14 @@ Widget buildTitle() => TextFormField(
           return null;
         },
         onSaved: (value) {
-      _edited = Category(title: _edited.title, numberr: value);
-        },
+
+          if(number == 1)
+            BloodPresure = int.parse(value!);
+          else if(number == 2)
+            HeartRate = int.parse(value!);
+          if(number == 3)
+            Fever = int.parse(value!);
+        }
       );
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +126,7 @@ Widget buildTitle() => TextFormField(
           elevation: 0,
          iconTheme: IconThemeData(color: Colors.indigoAccent),
           backgroundColor: Colors.transparent,
-          title: Text('Edit Patient',
+          title: Text('Add Category',
            style: TextStyle(fontSize: 27,
         fontWeight: FontWeight.bold,
             color: Colors.indigoAccent// Colors.deepOrangeAccent// Colors.redAccent
@@ -124,16 +151,21 @@ Widget buildTitle() => TextFormField(
               child: Container(
                 decoration: BoxDecoration(color: Colors.white10),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 20,),
-                    buildTitle(),
+                    Text("Blood Pressure", ),
+                    buildNumberr(1),
                     SizedBox(height: 50),
-                    buildNumberr(),
+                    Text("Heart Rate"),
+                    buildNumberr(2),
                     SizedBox(height: 50),
-                    
-                    
-                     IconButton(onPressed: _saveForm, icon: Icon(Icons.add_box_sharp, size: 50, color: Colors.blue,))
+                    Text("Fever"),
+                    buildNumberr(3),
+                    SizedBox(height: 50),
+
+
+                    IconButton(onPressed: _saveForm, icon: Icon(Icons.add_box_sharp, size: 50, color: Colors.blue,))
                   ],
                 ),
               ),
