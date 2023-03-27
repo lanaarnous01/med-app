@@ -114,7 +114,7 @@ Widget buildTitle() => TextFormField(
 
           if(number == 1)
             BloodPresure = int.parse(value!);
-          else if(number == 2)
+           if(number == 2)
             HeartRate = int.parse(value!);
           if(number == 3)
             Fever = int.parse(value!);

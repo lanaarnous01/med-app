@@ -12,7 +12,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    
     return SingleChildScrollView(
       child: Container(
         padding:  EdgeInsets.symmetric(horizontal: 20, vertical: 10),

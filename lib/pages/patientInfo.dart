@@ -83,8 +83,11 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     // ),
     centerTitle: true,
     flexibleSpace: Container(
+    //   width: double.infinity,
+    // height: 240,
     decoration: BoxDecoration(
-    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
+      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+    // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
     gradient: LinearGradient(
     colors: [Colors.indigo, Colors.blueAccent],//[Colors.orange, Colors.deepOrangeAccent],
     begin: Alignment.bottomCenter,
@@ -96,7 +99,7 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     ),
     floatingActionButton:   FirebaseAuth.instance.currentUser == null ? Container() :FloatingActionButton(onPressed: (() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateMeasurements(id: widget.id,)));
-    }), child: Icon(Icons.edit),)
+    }), child: Icon(Icons.edit,), backgroundColor: Colors.amber,)
     ,
     body:
     FutureBuilder(
@@ -117,7 +120,8 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     } else {
       String name = snapshot.data!.docs[0].get("name");
       String wardNo = snapshot.data!.docs[0].get("wardNo");
-      String id = snapshot.data!.docs[0].id;
+      String id = snapshot.data!.docs[0].id.substring(0,4);
+      //doc.id.substring(0,4)
       var categories = snapshot.data!.docs[0].get("categories");
       print(categories[0]);
 
@@ -127,56 +131,82 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-    SizedBox(height: 30,),
+   
     Container(
-    margin: EdgeInsets.all(15),
+      width: 210, //350,
+      height: 200,
+    margin: EdgeInsets.all(25),
     padding: EdgeInsets.all(20),
+    // width: double.infinity,
+    // height: 240,
     decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(30),
-    border: Border.all(color: Colors.blue)
+    borderRadius: BorderRadius.all(Radius.circular(20)),
+   // border: Border.all(color: Colors.indigo, width: 4),
+     gradient: LinearGradient(
+    colors: [Colors.blueAccent, Colors.indigo],//[Colors.orange, Colors.deepOrangeAccent],
+    begin: Alignment.bottomCenter,
+    end: Alignment.topCenter
+    ),
 
     ),
-    //  decoration: BoxDecoration(
-    // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
-    // gradient: LinearGradient(
-    // colors: [Colors.indigo, Colors.blueAccent],//[Colors.orange, Colors.deepOrangeAccent],
-    // begin: Alignment.bottomCenter,
-    // end: Alignment.topCenter
-    // ),
-    // ),
+    
     child: Row(
     crossAxisAlignment: CrossAxisAlignment.center,
 
     children: [
-    Icon(Icons.person, color: Colors.indigoAccent,),
     SizedBox(width: 30,),
     Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
+       Icon(Icons.person_rounded, color: Colors.white, size: 60,),
     Text( name,       //patientName,
     style: TextStyle(
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: FontWeight.bold,
-    color: Colors.indigoAccent
+    color: Colors.white
     ),
     ),
 
     SizedBox(height: 10,),
-    Text(wardNo,
-    style: TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
-    color: Colors.indigoAccent //white
+    Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Ward No.', style: TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.bold,
+          color: Colors.white
+          ),),
+          SizedBox(width: 5,),
+          Text(wardNo,
+          style: TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.bold,
+          color: Colors.white
+          ),
+          ),
+        ],
+      ),
     ),
-    ),
+    
     SizedBox(height: 10,),
-    Text(id,
-    style: TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
-    color: Colors.indigoAccent //white
-    ),
-    ),
+   RichText(
+  text: TextSpan(
+    children: [
+      
+      TextSpan(
+        text: "ID. ", style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold)
+      ),
+     
+      TextSpan(
+        text: id,
+        style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold)
+      ),
+    ],
+  ),
+),
     ],
     ),
     ],
@@ -213,6 +243,8 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     //  )
     //  ),
     //  )
+     Text('Diagnosis Update', 
+     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
     SizedBox(
     height: 500,
     child: ListView.builder(
@@ -223,7 +255,11 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
     decoration: BoxDecoration(
-      color: Colors.grey,
+      gradient: LinearGradient(
+    colors: [Colors.blueAccent, Colors.lightBlue],//[Colors.orange, Colors.deepOrangeAccent],
+    begin: Alignment.bottomCenter,
+    end: Alignment.topCenter
+    ),
 
     borderRadius: BorderRadius.circular(20), //13
 
@@ -231,16 +267,79 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center, //start,
         children: [
-          Text("${index.keys.elementAt(0)}: ${index.values.elementAt(0)}" , style: TextStyle(
-            fontSize: 18
-          ),),
-          Text("${index.keys.elementAt(1)}: ${index.values.elementAt(1)}" , style: TextStyle(
-              fontSize: 18)),
-          Text("${index.keys.elementAt(2)}: ${index.values.elementAt(2)}" , style: TextStyle(
+          // Text("${index.keys.elementAt(0)}: ${index.values.elementAt(0)}" , style: TextStyle(
+          //   fontSize: 18
+          // ),),
+         
+          RichText(
+  text: TextSpan(
+    children: [
+       WidgetSpan(
+        child: Icon(Icons.water_drop_rounded, size: 18, color: Colors.white,),
+      ),
+        WidgetSpan(child: SizedBox(width: 10,)),
+      TextSpan(
+        text: "${index.keys.elementAt(0)}: ", style: TextStyle(
               fontSize: 18)
-          )
+      ),
+     WidgetSpan(child: SizedBox(width: 120,)),
+      TextSpan(
+        text: "${index.values.elementAt(0)}",
+        style: TextStyle(
+              fontSize: 18)
+      ),
+    ],
+  ),
+),
+SizedBox(height: 10,),
+ RichText(
+  text: TextSpan(
+    children: [
+       WidgetSpan(
+        child: Icon(Icons.monitor_heart, size: 22, color: Colors.white,),
+      ),
+        WidgetSpan(child: SizedBox(width: 10,)),
+      TextSpan(
+        text: "${index.keys.elementAt(1)}: ", style: TextStyle(
+              fontSize: 18)
+      ),
+     WidgetSpan(child: SizedBox(width: 150,)),
+      TextSpan(
+        text: "${index.values.elementAt(1)}",
+        style: TextStyle(
+              fontSize: 18)
+      ),
+    ],
+  ),
+),
+SizedBox(height: 10,),
+ RichText(
+  text: TextSpan(
+    children: [
+       WidgetSpan(
+        child: Icon(Icons.device_thermostat_rounded, size: 25, color: Colors.white,),
+      ),
+        WidgetSpan(child: SizedBox(width: 10,)),
+      TextSpan(
+        text: "${index.keys.elementAt(2)}: ", style: TextStyle(
+              fontSize: 18)
+      ),
+     WidgetSpan(child: SizedBox(width: 200,)),
+      TextSpan(
+        text: "${index.values.elementAt(2)}",
+        style: TextStyle(
+              fontSize: 18)
+      ),
+    ],
+  ),
+),
+          // Text("${index.keys.elementAt(1)}: ${index.values.elementAt(1)}" , style: TextStyle(
+          //     fontSize: 18)),
+          // Text("${index.keys.elementAt(2)}: ${index.values.elementAt(2)}" , style: TextStyle(
+          //     fontSize: 18)
+          // )
         ],
       ),
     )
