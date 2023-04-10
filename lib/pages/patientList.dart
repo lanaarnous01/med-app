@@ -31,6 +31,7 @@ class _PatientListPageState extends State<PatientListPage> {
 
 
     return Scaffold(
+     
       drawer: Drawer(
         child: Column(
           children: <Widget>[

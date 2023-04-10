@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hps_application/FirebaseThings/FirebaseVariables.dart';
 import 'package:hps_application/models/listModel.dart';
 import 'package:hps_application/pages/history_page.dart';
 import 'package:hps_application/pages/updateMeasurements.dart';
@@ -56,11 +57,42 @@ class _patientInfo_pageState extends State<patientInfo_page> {
 //  ];
  // fix to category
 //var _editedCategory = Patient(name: '');
+List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watching TV'];
+  String? whatActivity;
   Widget build(BuildContext context) {
     //Changed to stateless, to show names when going next page
     //back to stetfull to save ny updates
 
     final categoriesData = Provider.of<Categories>(context);
+    final date = new DateTime.now();
+    Future<void> update([DocumentSnapshot? DocumentSnapshot])async{
+      print('object');
+      await showModalBottomSheet(context: context, builder: ((context) {
+        return DropdownButtonFormField(
+                  items: activity
+                      .map((value) => DropdownMenuItem(
+                            child: Text(
+                              value,
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                            value: value,
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    print(value);
+                    whatActivity = value;
+                    setState(() {});
+                  },
+                  value: whatActivity,
+                  isExpanded: false,
+                  hint: Text(
+                    'What is the patient doing?',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+        );
+      }));
+    }
+    
     // final categories = categoriesData.categories;
     //final activity = Provider.of<History>(context, listen: false).addHistory(patients.toList());
     return Scaffold(
@@ -121,10 +153,11 @@ class _patientInfo_pageState extends State<patientInfo_page> {
       String name = snapshot.data!.docs[0].get("name");
       String wardNo = snapshot.data!.docs[0].get("wardNo");
       String id = snapshot.data!.docs[0].id.substring(0,4);
+      
       //doc.id.substring(0,4)
       var categories = snapshot.data!.docs[0].get("categories");
       print(categories[0]);
-
+      
                 return  SingleChildScrollView(
     child: SafeArea(
     child: //singlechildscrollview
@@ -243,6 +276,36 @@ class _patientInfo_pageState extends State<patientInfo_page> {
     //  )
     //  ),
     //  )
+     Text('Activity', 
+     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+
+     Container(
+        width: 300, //350,
+      height: 40,
+    margin: EdgeInsets.all(25),
+    padding: EdgeInsets.only(left: 20),
+    // width: double.infinity,
+    // height: 240,
+    decoration: BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(20)),
+   // border: Border.all(color: Colors.indigo, width: 4),
+     gradient: LinearGradient(
+    colors: [Colors.blueAccent, Colors.indigo],//[Colors.orange, Colors.deepOrangeAccent],
+    begin: Alignment.bottomCenter,
+    end: Alignment.topCenter
+    ),
+
+    ),
+    child: Row(
+      children: [
+        Text('sleeping', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        SizedBox(width: 150,),
+      // Icon( Icons.edit, color: Colors.white,)
+      IconButton(onPressed: (() => update()), icon: Icon( Icons.edit, color: Colors.white,))
+      ],
+    ),
+     ),
+
      Text('Diagnosis Update', 
      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
     SizedBox(
@@ -276,6 +339,12 @@ class _patientInfo_pageState extends State<patientInfo_page> {
           RichText(
   text: TextSpan(
     children: [
+      //   WidgetSpan(child: SizedBox(height: 10,)),
+      // TextSpan(
+      //   text: "$date", style: TextStyle(
+      //         fontSize: 18)
+      // ),
+      // WidgetSpan(child: SizedBox(height: 60,)),
        WidgetSpan(
         child: Icon(Icons.water_drop_rounded, size: 18, color: Colors.white,),
       ),
@@ -334,7 +403,11 @@ SizedBox(height: 10,),
       ),
     ],
   ),
+  
+    
+   
 ),
+
           // Text("${index.keys.elementAt(1)}: ${index.values.elementAt(1)}" , style: TextStyle(
           //     fontSize: 18)),
           // Text("${index.keys.elementAt(2)}: ${index.values.elementAt(2)}" , style: TextStyle(

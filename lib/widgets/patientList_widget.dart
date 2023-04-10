@@ -50,8 +50,9 @@ class _PatientListState extends State<PatientList> {
        // key: _form,
          child: ListTile(
           shape: RoundedRectangleBorder(
+            
     side: BorderSide(width: 2, color: Colors.indigoAccent), //redAccent
-    borderRadius: BorderRadius.circular(10),
+    borderRadius: BorderRadius.circular(50),
   ),
           title: Text(widget.name, style: 
           TextStyle(

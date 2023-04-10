@@ -64,9 +64,9 @@ void _saveForm() async{
     //   Category(),
     // ];
   List<Map<String, int>> categories = [{
-    'Heart Rate': 98,
-    'Blood Pressure': 54,
-    'Fever': 1,
+    'Heart Rate': 0,
+    'Blood Pressure': 0,
+    'Fever': 0,
   },
 
   ];
