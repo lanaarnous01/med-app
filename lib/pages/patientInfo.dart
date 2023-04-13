@@ -65,7 +65,7 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
 
     final categoriesData = Provider.of<Categories>(context);
     final date = new DateTime.now();
-    Future<void> update([DocumentSnapshot? DocumentSnapshot])async{
+    Future<void> update({required String id})async{
       print('object');
       await showModalBottomSheet(context: context, builder: ((context) {
         return DropdownButtonFormField(
@@ -78,9 +78,13 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
                             value: value,
                           ))
                       .toList(),
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     print(value);
+                    await patientCollection.doc(id).update({
+                      "activity": value
+                    });
                     whatActivity = value;
+
                     setState(() {});
                   },
                   value: whatActivity,
@@ -152,11 +156,15 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
     } else {
       String name = snapshot.data!.docs[0].get("name");
       String wardNo = snapshot.data!.docs[0].get("wardNo");
+      String duringActivity = snapshot.data!.docs[0].get("activity");
       String id = snapshot.data!.docs[0].id.substring(0,4);
-      
+      String fullID = snapshot.data!.docs[0].id;
+
       //doc.id.substring(0,4)
       var categories = snapshot.data!.docs[0].get("categories");
-      print(categories[0]);
+      List<dynamic> date = snapshot.data!.docs[0].get("date");
+
+                print(categories[0]);
       
                 return  SingleChildScrollView(
     child: SafeArea(
@@ -276,7 +284,7 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
     //  )
     //  ),
     //  )
-     Text('Activity', 
+     Text('Activity',
      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
 
      Container(
@@ -298,10 +306,10 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
     ),
     child: Row(
       children: [
-        Text('sleeping', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-        SizedBox(width: 150,),
+        Text(duringActivity!, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        SizedBox(width: 80,),
       // Icon( Icons.edit, color: Colors.white,)
-      IconButton(onPressed: (() => update()), icon: Icon( Icons.edit, color: Colors.white,))
+      IconButton(onPressed: (() => update(id: fullID)), icon: Icon( Icons.edit, color: Colors.white,))
       ],
     ),
      ),
@@ -314,6 +322,8 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
     itemCount: categories.length,//Provider.of<Patients>(context).getPatients()[pateintData].categories.length, //categories
     itemBuilder: ((ctx, i) {
       Map <dynamic, dynamic> index = categories[i];
+      DateTime x = DateTime.parse(date[i].toDate().toString());
+      print(x);
     return Container(
     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
@@ -335,6 +345,26 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
           // Text("${index.keys.elementAt(0)}: ${index.values.elementAt(0)}" , style: TextStyle(
           //   fontSize: 18
           // ),),
+          RichText(
+            text: TextSpan(
+              children: [
+                WidgetSpan(
+                  child: Icon(Icons.calendar_today, size: 22, color: Colors.white,),
+                ),
+                WidgetSpan(child: SizedBox(width: 10,)),
+                TextSpan(
+                    text: "Date: ", style: TextStyle(
+                    fontSize: 18)
+                ),
+                TextSpan(
+                    text: "$x",
+                    style: TextStyle(
+                        fontSize: 18)
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10,),
          
           RichText(
   text: TextSpan(
@@ -345,6 +375,7 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
       //         fontSize: 18)
       // ),
       // WidgetSpan(child: SizedBox(height: 60,)),
+
        WidgetSpan(
         child: Icon(Icons.water_drop_rounded, size: 18, color: Colors.white,),
       ),

@@ -1,4 +1,6 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hps_application/FirebaseThings/FirebaseVariables.dart';
 import 'package:hps_application/models/listModel.dart';
 import 'package:hps_application/pages/addPatient_page.dart';
 //import 'package:hps_application/widgets/updateSheet.dart';
@@ -31,6 +33,15 @@ class PatientList extends StatefulWidget {
 }
 
 class _PatientListState extends State<PatientList> {
+  void deletePatient(String id) async {
+    //Delete selected appointment
+    await patientCollection.doc(id).delete().then(
+            (value) => print("Appointment deleted successfully!"));
+    await FirebaseFirestore.instance.collection("patient").get();
+    setState(() {
+
+    });
+  }
  // const PatientList({super.key});
 //  final _form = GlobalKey<FormState>();
 
@@ -79,7 +90,7 @@ class _PatientListState extends State<PatientList> {
                               ), icon: Icon(Icons.edit, color: Colors.indigoAccent, )
                               ),
                 IconButton(onPressed: (() {
-               Provider.of<Patients>(context, listen: false).deletePatient(widget.id);
+               deletePatient(widget.id);
                 }), 
                 icon: Icon(Icons.delete, color: Colors.indigoAccent, )),
                 

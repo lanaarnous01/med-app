@@ -69,11 +69,16 @@ void _saveForm() async{
     'Fever': 0,
   },
 
+
   ];
   var doc = await patientCollection.add({
     "name": _edited.name,
     "wardNo": _edited.wardNo,
     "categories": categories,
+    'date': [DateTime.now(),],
+    "activity": "Sleeping",
+
+
 
   });
   await doc.update({

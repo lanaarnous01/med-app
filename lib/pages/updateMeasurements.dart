@@ -2,8 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hps_application/main.dart';
 import 'package:hps_application/models/listModel.dart';
+import 'package:hps_application/pages/patientInfo.dart';
 import 'package:hps_application/providers/patients_providers.dart';
 import 'package:provider/provider.dart';
 
@@ -63,6 +65,8 @@ void _saveForm() async{
     'Heart Rate': HeartRate,
     'Blood Pressure': BloodPresure,
     'Fever': Fever,
+
+
   };
 
   print(widget.id);
@@ -70,7 +74,14 @@ void _saveForm() async{
     await  patientCollection.doc(widget.id).update({
 
     "categories": FieldValue.arrayUnion([q]),
+      "date": FieldValue.arrayUnion([DateTime.now()]),
   });
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+        builder: (context) =>
+            patientInfo_page(id: widget.id,)),
+  );
   //  Provider.of<Categories>(context, listen: false).updateNumberr(_edited.numberr, _edited);
   //  Navigator.of(context).pop();
 }
@@ -97,6 +108,10 @@ Widget buildTitle() => TextFormField(
 
       Widget buildNumberr(int number) => TextFormField(
     initialValue: _initValues['numberr'],
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly
+          ],
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),

@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:hps_application/main.dart';
 import 'package:hps_application/pages/addPatient_page.dart';
 import 'package:hps_application/pages/option_page.dart';
+import 'package:hps_application/pages/patientInfo.dart';
 import 'package:hps_application/services/authServices.dart';
 // import '../models/listModel.dart';
+import '../FirebaseThings/FirebaseVariables.dart';
 import '../widgets/patientList_widget.dart';
 import 'package:provider/provider.dart';
 import '../providers/patients_providers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../widgets/updateSheet.dart';
 class PatientListPage extends StatefulWidget {
   const PatientListPage({Key? key}) : super(key: key);
 
@@ -21,6 +25,15 @@ class _PatientListPageState extends State<PatientListPage> {
 //   final List <Patient> patients = [
 
 
+  void deletePatient(String id) async {
+    //Delete selected appointment
+    await patientCollection.doc(id).delete().then(
+            (value) => print("Appointment deleted successfully!"));
+    await FirebaseFirestore.instance.collection("patient").get();
+    setState(() {
+
+    });
+  }
   Widget build(BuildContext context) {
     //gets junk data from patient list provider
     final patientsData = Provider.of<Patients>(context);
@@ -161,10 +174,63 @@ class _PatientListPageState extends State<PatientListPage> {
     //       ),
 
     ),
-    child: PatientList(
-    name, wardNo, id,
+    child:        Form(
+      // key: _form,
+      child: ListTile(
+        shape: RoundedRectangleBorder(
 
-    )
+          side: BorderSide(width: 2, color: Colors.indigoAccent), //redAccent
+          borderRadius: BorderRadius.circular(50),
+        ),
+        title: Text(name, style:
+        TextStyle(
+            color:  Colors.indigoAccent,
+            fontWeight: FontWeight.bold, fontSize: 20),),
+        subtitle: Text(wardNo, style:
+        TextStyle(color: Colors.indigoAccent,  fontWeight: FontWeight.bold, fontSize: 15),),
+        leading: Icon(Icons.account_circle_rounded, size: 40, color: Colors.indigoAccent, ),
+        trailing: Container(
+          width: 100,
+          child: Row(
+            children: [
+              IconButton(
+                  onPressed: (() {
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => UpdateSheet(id: id,),
+                      ),
+                    );
+
+                  }
+                  ), icon: Icon(Icons.edit, color: Colors.indigoAccent, )
+              ),
+              IconButton(onPressed: (() {
+                deletePatient(id);
+              }),
+                  icon: Icon(Icons.delete, color: Colors.indigoAccent, )),
+
+            ],
+          ),
+        ),
+
+
+        onTap: () {
+          //pushNamed
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => patientInfo_page(id: id,),
+            ),
+          );
+
+
+        },
+
+      ),
+    ),
+
     );
     }
     ),
