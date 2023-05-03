@@ -32,39 +32,13 @@ List <String> familyCodes = [
 
 ];
 class _patientInfo_pageState extends State<patientInfo_page> {
-//  final List categories =[
-//   {
-//     "title":"heart rate",
-//     "numberr": '9',
-//     "icons": Icon(Icons.monitor_heart)
-    
-//   },
-//   {"title": "Blood pressure",
-//   "numberr": "9",
-//   "icons": Icon(Icons.access_alarm_sharp)
-//   },
-//   {"title": "Fever",
-//   "numberr": "9",
-//   "icons": Icon(Icons.thermostat)
-//   },
-//   {"title": "data",
-//   "numberr": "9",
-//   "icons": Icon(Icons.monitor_heart)
-//   },
-  
 
-
-//  ];
- // fix to category
-//var _editedCategory = Patient(name: '');
+//This is an array that contains activities in a form of string
 List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watching TV'];
   String? whatActivity;
   Widget build(BuildContext context) {
-    //Changed to stateless, to show names when going next page
-    //back to stetfull to save ny updates
-
-    final categoriesData = Provider.of<Categories>(context);
-    final date = new DateTime.now();
+   
+   //This is the update method when changing the activity 
     Future<void> update({required String id})async{
       print('object');
       await showModalBottomSheet(context: context, builder: ((context) {
@@ -73,7 +47,7 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
                       .map((value) => DropdownMenuItem(
                             child: Text(
                               value,
-                              style: TextStyle(color: Colors.blue),
+                              style: TextStyle(color: Colors.blue, fontSize: 22),
                             ),
                             value: value,
                           ))
@@ -87,52 +61,45 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
 
                     setState(() {});
                   },
+                  
                   value: whatActivity,
                   isExpanded: false,
-                  hint: Text(
-                    'What is the patient doing?',
-                    style: TextStyle(color: Colors.blue),
+                  hint: Container(
+                    padding: EdgeInsets.only(left: 25, ),
+                    child: Text(
+                      'What is the patient doing?',
+                      style: TextStyle(color: Colors.blue, fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
                   ),
         );
       }));
     }
     
-    // final categories = categoriesData.categories;
-    //final activity = Provider.of<History>(context, listen: false).addHistory(patients.toList());
     return Scaffold(
+      //app bar for patient info
         appBar: AppBar(
-        // iconTheme: IconThemeData(color: Colors.indigoAccent),
         backgroundColor: Colors.transparent,
         elevation: 0,
         toolbarHeight: 70,
         title: Text('Patient Information',
         style: TextStyle(fontSize: 27,
         fontWeight: FontWeight.bold,
-        // color: Colors.indigoAccent// Colors.deepOrangeAccent// Colors.redAccent
     ),
     ),
-    //        shape: Border(
-    //   bottom: BorderSide(
-    //     color: Colors.indigoAccent,//Colors.deepOrangeAccent,
-    //     width: 4
-    //   )
-    // ),
     centerTitle: true,
     flexibleSpace: Container(
-    //   width: double.infinity,
-    // height: 240,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-    // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
     gradient: LinearGradient(
-    colors: [Colors.indigo, Colors.blueAccent],//[Colors.orange, Colors.deepOrangeAccent],
+    colors: [Colors.indigo, Colors.blueAccent],
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter
     ),
     ),
     ),
-
     ),
+
+    //the edit button for the measurements to appear on the nurse's screen but not family member
     floatingActionButton:   FirebaseAuth.instance.currentUser == null ? Container() :FloatingActionButton(onPressed: (() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateMeasurements(id: widget.id,)));
     }), child: Icon(Icons.edit,), backgroundColor: Colors.amber,)
@@ -160,7 +127,7 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
       String id = snapshot.data!.docs[0].id.substring(0,4);
       String fullID = snapshot.data!.docs[0].id;
 
-      //doc.id.substring(0,4)
+      
       var categories = snapshot.data!.docs[0].get("categories");
       List<dynamic> date = snapshot.data!.docs[0].get("date");
 
@@ -174,7 +141,7 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
     children: [
    
     Container(
-      width: 210, //350,
+      width: 250, //350,
       height: 200,
     margin: EdgeInsets.all(25),
     padding: EdgeInsets.all(20),
@@ -255,35 +222,6 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
 
     ),
 
-
-    //          ListView.builder(
-    //   itemCount: categories.length,
-    //  itemBuilder: ((ctx, i) =>
-    //  // provider added
-    //  Provider(
-    //   create: (context) => categories[i],
-    //    child: Container(
-    //  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-
-    ///   decoration: BoxDecoration(
-
-    //  borderRadius: BorderRadius.circular(20), //13
-
-
-    //   // gradient: LinearGradient(
-    //   //       colors: [new Color(0xffF5591F), new Color(0xffF2861E)],  //[Colors.redAccent, Colors.pink],
-    //   //       begin: Alignment.bottomCenter,
-    //   //       end: Alignment.topCenter
-    //   //       ),
-
-    //                         ),
-    //     child: PatientList(
-    //       patients[i].name, patients[i].wardNo,  patients[i].id,
-
-    //       )),
-    //  )
-    //  ),
-    //  )
      Text('Activity',
      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
 
@@ -306,10 +244,11 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
     ),
     child: Row(
       children: [
-        Text(duringActivity!, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-        SizedBox(width: 80,),
-      // Icon( Icons.edit, color: Colors.white,)
-      IconButton(onPressed: (() => update(id: fullID)), icon: Icon( Icons.edit, color: Colors.white,))
+        //there was !
+        Text(duringActivity, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        SizedBox(width: 140,),
+      //icon button disappears from family member side
+      FirebaseAuth.instance.currentUser == null ? Container() : IconButton(onPressed: (() => update(id: fullID)), icon: Icon( Icons.edit, color: Colors.white,))
       ],
     ),
      ),
@@ -319,12 +258,12 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
     SizedBox(
     height: 500,
     child: ListView.builder(
-    itemCount: categories.length,//Provider.of<Patients>(context).getPatients()[pateintData].categories.length, //categories
-    itemBuilder: ((ctx, i) {
+    itemCount: categories.length,
+    itemBuilder:  ((ctx, i) {
       Map <dynamic, dynamic> index = categories[i];
       DateTime x = DateTime.parse(date[i].toDate().toString());
       print(x);
-    return Container(
+    return     Container(
     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
     decoration: BoxDecoration(
@@ -369,13 +308,6 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
           RichText(
   text: TextSpan(
     children: [
-      //   WidgetSpan(child: SizedBox(height: 10,)),
-      // TextSpan(
-      //   text: "$date", style: TextStyle(
-      //         fontSize: 18)
-      // ),
-      // WidgetSpan(child: SizedBox(height: 60,)),
-
        WidgetSpan(
         child: Icon(Icons.water_drop_rounded, size: 18, color: Colors.white,),
       ),
@@ -438,19 +370,10 @@ SizedBox(height: 10,),
     
    
 ),
-
-          // Text("${index.keys.elementAt(1)}: ${index.values.elementAt(1)}" , style: TextStyle(
-          //     fontSize: 18)),
-          // Text("${index.keys.elementAt(2)}: ${index.values.elementAt(2)}" , style: TextStyle(
-          //     fontSize: 18)
-          // )
         ],
       ),
     )
-    // child: UpdateMeasureWidget(
-    // categories.keys.elementAt(i), categories.values.elementAt(i),i.toString(), //categories[i].icons categories[i].title
-    //
-    // ),
+   
     );
     }
     ),
@@ -458,106 +381,12 @@ SizedBox(height: 10,),
     ),
 
 
-
-    //  PatientInfoWidget(),
-
-
-    //  UpdateCategory(),
-
-    //           SizedBox(
-    //             height: 300,
-    //             child:
-    //             ListView.builder(itemCount: categories.length,
-    //             itemBuilder: (_, index) =>
-    //             Container(
-
-    //             decoration: BoxDecoration(
-    //                 borderRadius: BorderRadius.circular(15),
-    //                 color: Colors.indigoAccent
-    //             //   gradient: LinearGradient(
-    //             // colors: [Colors.indigo, Colors.blueAccent],// [new Color(0xffF5591F), new Color(0xffF2861E)],  //[Colors.redAccent, Colors.pink],
-    //             // begin: Alignment.bottomCenter,
-    //             // end: Alignment.topCenter
-    //             // ),
-    //             ),
-    //                margin: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-
-    //               child: ListTile(
-    // //                   shape: RoundedRectangleBorder(
-    // //         side: BorderSide(width: 2, color: Colors.indigoAccent), //redAccent
-    // //         borderRadius: BorderRadius.circular(20), //10
-    // // ),
-    //                 iconColor: Colors.white,// Colors.indigoAccent,
-    //                 leading:  categories[index].icons,
-    //                 title: Text(categories[index].title, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),
-    //                 trailing: Text('${loadedPatient.numberHeart}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),
-
-    //                 //categories[index].numberr
-    //                 ),
-    //             )
-    //             ),
-    //           ),
-    //             InkWell(
-    //               onTap:() {
-    //                 //navigation push
-    //                 Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => const HistoryPage()),
-    // );
-    //                 // Provider.of<History>(context, listen: false).addHistory(
-
-    //                 // );
-    //               },
-    //               child: Center(
-    //                 child: Container(
-
-    //                   width: 150, //150
-    //                   decoration: BoxDecoration(
-
-    //                     borderRadius: BorderRadius.circular(22),
-    //                     color: Colors.white,
-    //                   ),
-    //                   child: Row(
-    //                     children: [
-    //                       Container(
-    //                         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-    //                         height: 50,
-    //                         width: 110,
-    //                          child: Text('Activity',
-    //                          style: TextStyle(
-    //                           fontSize: 17,
-    //                           fontWeight: FontWeight.bold,
-    //                           color: Colors.white
-    //                          ),
-
-
-    //                         ),
-    //                         decoration: BoxDecoration(
-    //                           color: Colors.blueAccent,
-    //                         borderRadius: BorderRadius.only(
-    //                           bottomLeft: Radius.circular(95), //95
-    //                         topLeft: Radius.circular(95),
-    //                         bottomRight: Radius.circular(240) //240
-    //                         )
-    //                         ),
-    //                       ),
-
-    //                       Icon(Icons.arrow_circle_right_outlined, size: 30, color: Colors.blue, )
-    //                     ],
-    //                   ),
-
-    //                 ),
-    //               ),
-    //             ),
-
     ],
     ),
     ),
     );
     }})
    
-
-
     );
     }
   }

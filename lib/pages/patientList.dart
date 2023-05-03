@@ -53,7 +53,7 @@ class _PatientListPageState extends State<PatientListPage> {
           backgroundColor: Colors.white,
           child: Icon(Icons.person, size: 50.0,),
         ),
-        accountName: Text('Lana'),
+        accountName: Text(FirebaseAuth.instance.currentUser == null ? "" :FirebaseAuth.instance.currentUser!.displayName.toString()),
         accountEmail:Text( FirebaseAuth.instance.currentUser == null ? "" :FirebaseAuth.instance.currentUser!.email.toString()),
       ),
             FirebaseAuth.instance.currentUser == null ? ListTile(
@@ -93,9 +93,10 @@ class _PatientListPageState extends State<PatientListPage> {
         title: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.checklist_sharp, size: 30,),
-              SizedBox(width: 10,),
+              Icon(Icons.checklist_sharp, size: 40,),
+              SizedBox(width: 5,),
               Text('Patient List', 
               style: TextStyle(fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -111,7 +112,7 @@ class _PatientListPageState extends State<PatientListPage> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
             gradient: LinearGradient(
-              colors: [Colors.indigo, Colors.blueAccent],//[Colors.orange, Colors.deepOrangeAccent],//[Colors.redAccent, Colors.pink],
+              colors: [Colors.indigo, Colors.blueAccent],
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter
               ),

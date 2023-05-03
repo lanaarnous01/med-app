@@ -31,8 +31,8 @@ class _UpdateMeasurementsState extends State<UpdateMeasurements> {
   var _isInit = true;
 
 
-
-  @override
+//if error un comment override
+ // @override
 
   int HeartRate = 0;
   int Fever = 0;
@@ -73,6 +73,7 @@ void _saveForm() async{
 
     await  patientCollection.doc(widget.id).update({
 
+//maybe comment because of array union
     "categories": FieldValue.arrayUnion([q]),
       "date": FieldValue.arrayUnion([DateTime.now()]),
   });
@@ -82,8 +83,6 @@ void _saveForm() async{
         builder: (context) =>
             patientInfo_page(id: widget.id,)),
   );
-  //  Provider.of<Categories>(context, listen: false).updateNumberr(_edited.numberr, _edited);
-  //  Navigator.of(context).pop();
 }
 
 Widget buildTitle() => TextFormField(
@@ -126,7 +125,6 @@ Widget buildTitle() => TextFormField(
           return null;
         },
         onSaved: (value) {
-
           if(number == 1)
             BloodPresure = int.parse(value!);
            if(number == 2)
@@ -144,29 +142,28 @@ Widget buildTitle() => TextFormField(
           title: Text('Add Category',
            style: TextStyle(fontSize: 27,
         fontWeight: FontWeight.bold,
-            color: Colors.indigoAccent// Colors.deepOrangeAccent// Colors.redAccent
+            color: Colors.indigoAccent
      ),
           ),
       centerTitle: true,
                    shape: Border(
     bottom: BorderSide(
-      color: Colors.indigoAccent,//Colors.deepOrangeAccent,
+      color: Colors.indigoAccent,
       width: 4
     )
   ),
           
         ),
-        // backgroundColor: Color.fromARGB(255, 248, 85, 85),
-        body: Form(
+        body:  Form(
           key: _form,
           child: ListView(padding: EdgeInsets.all(32), 
           
           children: [
-            Center(
+           Center(
               child: Container(
                 decoration: BoxDecoration(color: Colors.white10),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(height: 20,),
                     Text("Blood Pressure", ),
@@ -177,7 +174,7 @@ Widget buildTitle() => TextFormField(
                     SizedBox(height: 50),
                     Text("Fever"),
                     buildNumberr(3),
-                    SizedBox(height: 50),
+                    SizedBox(height:70,),
 
 
                     IconButton(onPressed: _saveForm, icon: Icon(Icons.add_box_sharp, size: 50, color: Colors.blue,))

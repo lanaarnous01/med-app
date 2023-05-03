@@ -29,7 +29,8 @@ class _LoginNursePageState extends State<LoginNursePage> {
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
         ),
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.visiblePassword,
+        obscureText: true,
         textInputAction: TextInputAction.done,
       );
 

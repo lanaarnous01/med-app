@@ -9,9 +9,13 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
+  //text controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
 
+// Email widget
   Widget buildEmail() => TextField(
         controller: emailController,
         cursorColor: Color(0xffF5591F),
@@ -22,18 +26,10 @@ class _RegisterPageState extends State<RegisterPage> {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
       );
-  Widget buildPhoneNo() => TextField(
-       // controller: passwordController,
-        decoration: InputDecoration(
-          labelText: 'Phone Number',
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-        ),
-        keyboardType: TextInputType.number,
-        textInputAction: TextInputAction.done,
-      );
+
+// Full name widget
   Widget buildName() => TextField(
-       // controller: emailController,
+        controller: nameController,
         decoration: InputDecoration(
           labelText: 'Name',
           enabledBorder: InputBorder.none,
@@ -42,6 +38,8 @@ class _RegisterPageState extends State<RegisterPage> {
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
       );
+      
+      //Password widget
   Widget buildPassword() => TextField(
         controller: passwordController,
         decoration: InputDecoration(
@@ -50,6 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
           focusedBorder: InputBorder.none,
         ),
         keyboardType: TextInputType.visiblePassword,
+        obscureText: true,
         textInputAction: TextInputAction.done,
       );
 
@@ -121,14 +120,15 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          //Containerr(buildName()),
+
+          //Calling all widgets
+          Containerr(buildName()),
            Containerr(buildEmail()),
-          // Containerr(buildPhoneNo()),
           Containerr(buildPassword()),
 
           ElevatedButton(onPressed: (() async {
            await authService.createUserWithEmailAndPass(
-              emailController.text, passwordController.text);
+              emailController.text, passwordController.text, nameController.text );
               Navigator.pop(context);
           }), child: Text('Register'))
 
