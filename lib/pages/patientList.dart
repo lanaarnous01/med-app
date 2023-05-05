@@ -78,7 +78,12 @@ class _PatientListPageState extends State<PatientListPage> {
           ),
           title: Text("Log out"),
           onTap: () async {
-            await FirebaseAuth.instance.signOut();
+            await FirebaseAuth.instance.signOut().then((value) => Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => Option_page(), //if correct credintial
+                ),
+                    (route) => false));
 
           }
         )
