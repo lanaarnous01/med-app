@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:hps_application/FirebaseThings/FirebaseVariables.dart';
 import 'package:hps_application/models/listModel.dart';
 import 'package:hps_application/pages/history_page.dart';
+import 'package:hps_application/pages/patientList.dart';
 import 'package:hps_application/pages/updateMeasurements.dart';
 // import 'package:hps_application/providers/history.dart';
 import 'package:hps_application/widgets/patientInfo_widget.dart';
+import 'package:hps_application/widgets/patientList_widget.dart';
 import 'package:hps_application/widgets/updateMeasure_widget.dart';
 import 'package:provider/provider.dart';
 import '../providers/patients_providers.dart';
@@ -78,6 +80,21 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
     return Scaffold(
       //app bar for patient info
         appBar: AppBar(
+          leading:
+            Container(
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_rounded),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => PatientListPage(), //if correct credintial
+                      ),
+                          (route) => false);
+                },
+              ),
+            ),
+
         backgroundColor: Colors.transparent,
         elevation: 0,
         toolbarHeight: 70,
@@ -258,12 +275,15 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
     SizedBox(
     height: 500,
     child: ListView.builder(
+
+      scrollDirection: Axis.vertical,
     itemCount: categories.length,
     itemBuilder:  ((ctx, i) {
       Map <dynamic, dynamic> index = categories[i];
       DateTime x = DateTime.parse(date[i].toDate().toString());
       print(x);
-    return     Container(
+    return   index.values.elementAt(0)  == 0 && index.values.elementAt(1) == 0&&
+      index.values.elementAt(2) == 0? Container() :  Container(
     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
     decoration: BoxDecoration(
@@ -318,7 +338,7 @@ List<String> activity = ['Sleeping', 'Eating', 'Blood tests', 'Walking', 'Watchi
       ),
      WidgetSpan(child: SizedBox(width: 120,)),
       TextSpan(
-        text: "${index.values.elementAt(0)}",
+        text: index.values.elementAt(0) == 0 ? "" :"${index.values.elementAt(0)}",
         style: TextStyle(
               fontSize: 18)
       ),
@@ -339,7 +359,7 @@ SizedBox(height: 10,),
       ),
      WidgetSpan(child: SizedBox(width: 150,)),
       TextSpan(
-        text: "${index.values.elementAt(1)}",
+          text: index.values.elementAt(1) == 0 ? "" :"${index.values.elementAt(1)}",
         style: TextStyle(
               fontSize: 18)
       ),
@@ -360,7 +380,7 @@ SizedBox(height: 10,),
       ),
      WidgetSpan(child: SizedBox(width: 200,)),
       TextSpan(
-        text: "${index.values.elementAt(2)}",
+          text: index.values.elementAt(2) == 0 ? "" :"${index.values.elementAt(2)}",
         style: TextStyle(
               fontSize: 18)
       ),
