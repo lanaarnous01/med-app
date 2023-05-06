@@ -22,6 +22,7 @@ class _OptionPageState extends State<Option_page> {
                colors: [Colors.indigo, Colors.blueAccent],
             )
         ),
+        // To diplay writing on top of 2 buttons
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -35,6 +36,7 @@ class _OptionPageState extends State<Option_page> {
             Row(
               children: [
                 SizedBox(width: 13),
+                //Gesture Detector makes the container tappable to take us to the next page for nurse 
                 GestureDetector(
                   onTap: () {
                      Navigator.push(
@@ -64,6 +66,9 @@ class _OptionPageState extends State<Option_page> {
                   ),
                 ),
                 SizedBox(width: 30),
+
+                //Gesture Detector makes the container tappable to take us to the next page which for family member 
+                //Takes them to login page 
                  GestureDetector(
                   onTap: () {
                         Navigator.push(

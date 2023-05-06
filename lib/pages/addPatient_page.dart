@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../FirebaseThings/FirebaseVariables.dart';
 import '../providers/patients_providers.dart';
@@ -90,6 +90,8 @@ void _saveForm() async{
 //   { Provider.of<Patients>(context, listen: false).updatePatient(_edited.name, _edited);}
 //   else
 //Provider.of<Patients>(context).getPatients()[pateintData]
+
+//might comment then delete
   Provider.of<Patients>(context, listen: false).addPatient(_edited);
   Navigator.of(context).pop();
 }
@@ -135,65 +137,65 @@ void _saveForm() async{
         },
       );
 
-      Widget buildHeartRate() => TextFormField(
-    initialValue: _initValues['numberHeart'],
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
-          labelText: 'Heart Rate',
-        ),
-        validator: (value) {
-          if (value!.isEmpty){
-            return 'Please enter Heart rate';
-          }
-          return null;
-        },
-        onSaved: (value) {
-          _edited = Patient(name: _edited.name, wardNo: _edited.wardNo, id: _edited.id, numberHeart: _edited.numberHeart, numberPressure: value, numberFever: _edited.numberFever,);
-        },
-      );
+    //   Widget buildHeartRate() => TextFormField(
+    // initialValue: _initValues['numberHeart'],
+    //     decoration: InputDecoration(
+    //       enabledBorder: OutlineInputBorder(
+    //           borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
+    //       focusedBorder: OutlineInputBorder(
+    //           borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
+    //       labelText: 'Heart Rate',
+    //     ),
+    //     validator: (value) {
+    //       if (value!.isEmpty){
+    //         return 'Please enter Heart rate';
+    //       }
+    //       return null;
+    //     },
+    //     onSaved: (value) {
+    //       _edited = Patient(name: _edited.name, wardNo: _edited.wardNo, id: _edited.id, numberHeart: _edited.numberHeart, numberPressure: value, numberFever: _edited.numberFever,);
+    //     },
+    //   );
 
-       Widget buildPressure() => TextFormField(
-    initialValue: _initValues['numberPressure'],
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
-          labelText: 'Blood Pressure',
-        ),
-        validator: (value) {
-          if (value!.isEmpty){
-            return 'Please enter Blood Pressure';
-          }
-          return null;
-        },
-        onSaved: (value) {
-      _edited = Patient(name: _edited.name, wardNo: _edited.wardNo, id: _edited.id, numberHeart: _edited.numberHeart, numberPressure: value, numberFever: _edited.numberFever, );
-        },
-      );
+    //    Widget buildPressure() => TextFormField(
+    // initialValue: _initValues['numberPressure'],
+    //     decoration: InputDecoration(
+    //       enabledBorder: OutlineInputBorder(
+    //           borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
+    //       focusedBorder: OutlineInputBorder(
+    //           borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
+    //       labelText: 'Blood Pressure',
+    //     ),
+    //     validator: (value) {
+    //       if (value!.isEmpty){
+    //         return 'Please enter Blood Pressure';
+    //       }
+    //       return null;
+    //     },
+    //     onSaved: (value) {
+    //   _edited = Patient(name: _edited.name, wardNo: _edited.wardNo, id: _edited.id, numberHeart: _edited.numberHeart, numberPressure: value, numberFever: _edited.numberFever, );
+    //     },
+    //   );
 
-    Widget buildFever() => TextFormField(
-    initialValue: _initValues['numberFever'],
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
-          labelText: 'Fever',
-        ),
-        validator: (value) {
-          if (value!.isEmpty){
-            return 'Please enter Fever';
-          }
-          return null;
-        },
-        onSaved: (value) {
-      _edited = Patient(name: _edited.name, wardNo: _edited.wardNo, id: _edited.id, numberHeart: _edited.numberHeart, numberPressure: _edited.numberPressure, numberFever: value, );
-        },
-      );
+    // Widget buildFever() => TextFormField(
+    // initialValue: _initValues['numberFever'],
+    //     decoration: InputDecoration(
+    //       enabledBorder: OutlineInputBorder(
+    //           borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
+    //       focusedBorder: OutlineInputBorder(
+    //           borderSide: BorderSide(color: Colors.indigoAccent, width: 3)),
+    //       labelText: 'Fever',
+    //     ),
+    //     validator: (value) {
+    //       if (value!.isEmpty){
+    //         return 'Please enter Fever';
+    //       }
+    //       return null;
+    //     },
+    //     onSaved: (value) {
+    //   _edited = Patient(name: _edited.name, wardNo: _edited.wardNo, id: _edited.id, numberHeart: _edited.numberHeart, numberPressure: _edited.numberPressure, numberFever: value, );
+    //     },
+    //   );
   
 
   Widget build(BuildContext context) {
@@ -205,19 +207,18 @@ void _saveForm() async{
           title: Text('Add Patient',
            style: TextStyle(fontSize: 27,
         fontWeight: FontWeight.bold,
-            color: Colors.indigoAccent// Colors.deepOrangeAccent// Colors.redAccent
+            color: Colors.indigoAccent
      ),
           ),
       centerTitle: true,
                    shape: Border(
     bottom: BorderSide(
-      color: Colors.indigoAccent,//Colors.deepOrangeAccent,
+      color: Colors.indigoAccent,
       width: 4
     )
   ),
           
         ),
-        // backgroundColor: Color.fromARGB(255, 248, 85, 85),
         body: Form(
           key: _form,
           child: ListView(padding: EdgeInsets.all(32), 
@@ -229,18 +230,14 @@ void _saveForm() async{
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+
+                    //Displaying name field and Ward number field
                     SizedBox(height: 20,),
                     buildName(),
                     SizedBox(height: 50),
                     buildWardNo(),
                     SizedBox(height: 50),
-                    // buildHeartRate(),
-                    // SizedBox(height: 50),
-                    // buildPressure(),
-                    // SizedBox(height: 50),
-                    // buildFever(),
-                    // SizedBox(height: 50),
-                    
+                   
                      IconButton(onPressed: _saveForm, icon: Icon(Icons.add_box_sharp, size: 50, color: Colors.blue,))
                   ],
                 ),
